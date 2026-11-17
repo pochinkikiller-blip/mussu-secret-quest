@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<meta name="theme-color" content="#241c3c"><title>Mussu's Little Universe</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;600;700;800&family=Fredoka:wght@400;500;600;700&display=swap');
+:root{--ink:#28213d;--pink:#ff78b7;--violet:#9c7bff;--mint:#8ce5c1;--cream:#fff8ee}
+*{box-sizing:border-box}body{margin:0;color:var(--ink);font-family:'DM Sans',sans-serif;background:#171329;min-height:100vh}
+button{font:inherit;cursor:pointer;border:0}.page{display:none;min-height:100vh;padding:22px 15px 34px;align-items:center;justify-content:center;background:radial-gradient(circle at 15% 10%,#f8c8e5 0,transparent 30%),radial-gradient(circle at 90% 15%,#c9c0ff 0,transparent 32%),linear-gradient(145deg,#fff4e7,#e8f8f3)}
+.page.show{display:flex}.wrap{width:min(760px,100%);margin:auto}.panel{background:#ffffffdf;border:1px solid #fff;border-radius:30px;padding:clamp(20px,5vw,38px);box-shadow:0 24px 80px #35264c25;position:relative;overflow:hidden}
+.panel:before{content:"";position:absolute;inset:0 0 auto;height:7px;background:linear-gradient(90deg,var(--pink),#ffc86b,var(--mint),var(--violet))}
+h1,h2,h3{font-family:Fredoka,sans-serif;margin:8px 0}h1{font-size:clamp(42px,10vw,76px);line-height:.98;color:#6e4bc1}h2{font-size:clamp(29px,7vw,45px);color:#563b91}p{line-height:1.65;font-size:16px}.muted{color:#827990}.center{text-align:center}.eyebrow{display:inline-block;border-radius:99px;padding:7px 13px;background:#f1eaff;color:#7654b7;font-size:12px;font-weight:800;letter-spacing:1px}
+.cta{padding:15px 23px;border-radius:18px;color:#fff;font-weight:800;background:linear-gradient(110deg,#8d65e9,#ed75ae);box-shadow:0 10px 22px #9d68ce44;transition:.2s}.cta:active{transform:scale(.97)}.soft{padding:13px 18px;border-radius:16px;background:#f4edff;color:#6545a5;font-weight:800}.row{display:flex;gap:10px;justify-content:center;flex-wrap:wrap}.hero-art{font-size:clamp(56px,13vw,100px);filter:drop-shadow(0 10px 8px #8064a333);margin:8px}
+.stars{position:fixed;inset:0;pointer-events:none;color:#fff;opacity:.55;font-size:13px;letter-spacing:24px;line-height:3;overflow:hidden}
+.topline{display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;font-size:12px;font-weight:800;color:#766b8a}.meter{height:9px;background:#eee6f8;border-radius:20px;overflow:hidden;margin:10px 0 20px}.meter span{display:block;height:100%;width:0;background:linear-gradient(90deg,#ff83b8,#9a80f8);transition:.3s}
+.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;max-width:520px;margin:22px auto}.plot{aspect-ratio:1;border-radius:19px;background:linear-gradient(150deg,#d5f4c9,#a8df9e);box-shadow:inset 0 -5px #75bd75;display:grid;place-items:center;font-size:clamp(27px,7vw,42px);transition:.18s}.plot.done{background:#fff1c9;box-shadow:inset 0 -5px #e9c77a;transform:rotate(-4deg) scale(.95)}
+.toast{min-height:52px;background:#fff5fc;border:1px dashed #e6b8d8;padding:12px;border-radius:15px;color:#72527c}
+.palette{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin:22px 0}.swatch{border-radius:18px;min-height:105px;color:white;font-weight:800;text-shadow:0 1px 4px #0005;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5px;box-shadow:inset 0 -5px #00000012}.swatch b{font-size:26px}.swatch small{font-size:11px}.swatch.picked{outline:4px solid #35264c;outline-offset:2px;transform:translateY(-4px)}
+.craftnote{background:#fff9ed;border:2px solid #f1dfbd;border-radius:22px;padding:18px;text-align:left;min-height:100px}
+.gamebox{height:350px;max-width:540px;margin:18px auto;background:radial-gradient(circle at 50% 100%,#53626a,#202b38 70%);border:5px solid #3a3a4d;border-radius:23px;position:relative;overflow:hidden;touch-action:manipulation}
+.gamebox:before{content:"";position:absolute;inset:0;background:repeating-linear-gradient(0deg,transparent 0 34px,#ffffff08 35px 36px),repeating-linear-gradient(90deg,transparent 0 34px,#ffffff08 35px 36px)}
+.target{position:absolute;font-size:34px;filter:drop-shadow(0 4px 4px #0008);z-index:2;animation:pop .2s ease-out}.target:active{transform:scale(.7)}@keyframes pop{from{transform:scale(.2)}to{transform:scale(1)}}
+.hud{display:flex;justify-content:space-between;color:#fff;background:#ffffff16;padding:10px 14px;border-radius:12px;font-size:12px;font-weight:800;position:relative;z-index:1}
+.reward-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin:20px 0}.reward{background:#fff;border:1px solid #eee3f8;border-radius:18px;padding:14px;text-align:left}.reward span{font-size:25px}.reward b{display:block;margin:5px 0}.secret{display:none;background:linear-gradient(135deg,#fff0f8,#f1edff);border-radius:22px;padding:22px;margin-top:18px;border:1px solid #f2d9ee;animation:reveal .7s ease}@keyframes reveal{from{opacity:0;transform:translateY(15px)}to{opacity:1;transform:none}}
+@media(max-width:420px){.grid{gap:7px}.plot{border-radius:13px}.palette{gap:7px}.swatch{min-height:85px}.gamebox{height:310px}.reward-grid{grid-template-columns:1fr}}
+</style></head>
+<body>
+<div class="stars">✦　　✧　　✦　　　✧　　✦　　✧　　✦　　✧　　✦　　✧</div>
+
+<section id="welcome" class="page show"><div class="wrap panel center">
+<div class="hero-art">🌙🪻✨</div><div class="eyebrow">A LITTLE WORLD MADE FOR ONE PERSON</div>
+<h1>Mussu's<br>Little Universe</h1>
+<p class="muted">A tiny quest through the things you love.<br>One farm, one art room, one mission… and one surprise.</p>
+<div style="font-size:32px;margin:18px">🌾　✏️　🎯　💗</div>
+<button class="cta" onclick="openPage('farm')">ENTER MUSSU'S WORLD →</button>
+<p class="muted" style="font-size:12px">Headphones optional. Main-character energy compulsory.</p>
+</div></section>
+
+<section id="farm" class="page"><div class="wrap panel center">
+<div class="topline"><span>CHAPTER 01 · THE LITTLE FARM</span><span>🌾 01 / 03</span></div><h2>Restore the heart farm</h2><p class="muted">The farm's lost its sparkle. Tap the plots to harvest 6 little surprises.</p>
+<div class="meter"><span id="farmMeter"></span></div><div class="grid" id="farmGrid"></div><div class="toast" id="farmToast">🌱 Tap a plot to see what is growing!</div>
+</div></section>
+
+<section id="art" class="page"><div class="wrap panel center">
+<div class="topline"><span>CHAPTER 02 · THE ART STUDIO</span><span>🎨 02 / 03</span></div><h2>Make a tiny masterpiece</h2><p class="muted">Pick all four colours to complete Mussu's palette. Each colour has a little note.</p>
+<div class="palette">
+<button class="swatch" style="background:#f06d82" onclick="pickColor(this,'❤️','Red','Your spark: impossible to ignore.')"><b>❤️</b><small>RED</small></button>
+<button class="swatch" style="background:#579ee7" onclick="pickColor(this,'💙','Blue','Your calm: even chaos feels softer with you.')"><b>💙</b><small>BLUE</small></button>
+<button class="swatch" style="background:#edbd48" onclick="pickColor(this,'💛','Yellow','Your sunshine: you make ordinary moments brighter.')"><b>💛</b><small>YELLOW</small></button>
+<button class="swatch" style="background:#9b70d7" onclick="pickColor(this,'💜','Purple','Your magic: a little unpredictable, completely you.')"><b>💜</b><small>PURPLE</small></button>
+</div><div class="craftnote" id="craftNote">🖍️ Your colour notes will appear here. Pick a pencil!</div>
+</div></section>
+
+<section id="mission" class="page"><div class="wrap panel center">
+<div class="topline"><span>CHAPTER 03 · OPERATION MUSSU</span><span>🎯 03 / 03</span></div><h2>COD: Target acquired</h2><p class="muted">Tap 12 targets. Don't let the chaos win. Your weapon? Elite reflexes.</p>
+<div class="gamebox" id="gamebox"><div class="hud"><span>MISSION: KEEP IT CUTE</span><span id="score">HITS 0 / 12</span></div></div>
+<div class="meter"><span id="scoreMeter"></span></div><p class="muted" id="missionTip">Targets pop up for a moment. Tap quickly!</p>
+</div></section>
+
+<section id="reveal" class="page"><div class="wrap panel center">
+<div class="hero-art">🏆💗✨</div><div class="eyebrow">ALL CHAPTERS CLEARED</div><h2>Quest complete, Mussu.</h2>
+<p>You restored the farm, made the palette, and absolutely carried that mission.</p>
+<div class="reward-grid">
+<div class="reward"><span>🌾</span><b>Farmer's heart</b><small>Patient, persistent, quietly powerful.</small></div>
+<div class="reward"><span>🖍️</span><b>Artist's touch</b><small>You bring colour into your own little universe.</small></div>
+<div class="reward"><span>🎯</span><b>Elite aim</b><small>Not even the targets stood a chance.</small></div>
+<div class="reward"><span>❤️‍🔥</span><b>Rare chemistry</b><small>Some things don't need a score or explanation.</small></div>
+</div>
+<button class="cta" onclick="document.getElementById('secret').style.display='block';this.style.display='none'">UNLOCK YOUR SECRET NOTE ✨</button>
+<div class="secret" id="secret"><div style="font-size:34px">💌</div><h2>For you, Mussu</h2>
+<p>I could've just sent you a message, but I wanted to make you a little world you could play with.</p>
+<p>There's a bit of your farm, a bit of your art-room magic, a bit of your COD energy, and a little bit of the spark that makes <b>us</b>… us.</p>
+<p>You're my favourite plot twist. And that chemistry of ours? Let's just say this game couldn't handle all of it. 😏❤️‍🔥</p>
+<p style="font-family:Fredoka;font-size:23px;color:#8053bb">Made just for you. Always be this wonderfully you. 💗</p></div>
+<p class="muted" style="font-size:12px;margin-top:22px">END OF QUEST · REPLAY ANYTIME</p><button class="soft" onclick="location.reload()">↻ Play again</button>
+</div></section>
+
+<script>
+const pages=['welcome','farm','art','mission','reveal'];function openPage(id){pages.forEach(p=>document.getElementById(p).classList.remove('show'));document.getElementById(id).classList.add('show');window.scrollTo(0,0);if(id==='mission'&&!started)startMission();}
+const farmBits=['🌾','🍓','🐣','🌻','🍎','💌','🥕','🐝','🍯','🌷','🥛','❤️'];let harvested=0;
+const farmGrid=document.getElementById('farmGrid');farmBits.forEach((emoji,i)=>{let b=document.createElement('button');b.className='plot';b.textContent='🌱';b.onclick=()=>{if(b.classList.contains('done'))return;b.classList.add('done');b.textContent=emoji;harvested++;document.getElementById('farmMeter').style.width=(harvested/6*100)+'%';document.getElementById('farmToast').textContent=['A little sweetness for your day. 🍓','A tiny reminder: good things grow with care. 🌱','Even the smallest things can make you smile. 🌻','One more little reason to celebrate you. 💗','The farm says: main character energy. ✨','Harvest complete! Your next adventure awaits. 🎨'][Math.min(harvested-1,5)];if(harvested>=6)setTimeout(()=>openPage('art'),850)};farmGrid.appendChild(b)});
+let colors=0;function pickColor(btn,emoji,name,note){if(btn.classList.contains('picked'))return;btn.classList.add('picked');colors++;document.getElementById('craftNote').innerHTML=`<b>${emoji} ${name}:</b> ${note}<br><small style="color:#8a7b95">Palette completed: ${colors}/4</small>`;if(colors===4){document.getElementById('craftNote').innerHTML+=' <br><b>Masterpiece unlocked! ✨</b>';setTimeout(()=>openPage('mission'),1000)}}
+let hits=0,started=false,spawnTimer;function startMission(){started=true;spawnTarget()}
+function spawnTarget(){if(hits>=12)return;const box=document.getElementById('gamebox');box.querySelectorAll('.target').forEach(e=>e.remove());let t=document.createElement('button');t.className='target';t.textContent=['🎯','💥','⭐','🎮'][Math.floor(Math.random()*4)];t.style.left=(5+Math.random()*82)+'%';t.style.top=(18+Math.random()*68)+'%';t.onclick=()=>{hits++;document.getElementById('score').textContent=`HITS ${hits} / 12`;document.getElementById('scoreMeter').style.width=(hits/12*100)+'%';if(hits>=12){clearTimeout(spawnTimer);document.getElementById('missionTip').textContent='MISSION CLEARED. Legendary work. 🏆';setTimeout(()=>openPage('reveal'),700)}else spawnTarget()};box.appendChild(t);spawnTimer=setTimeout(()=>{if(t.isConnected)spawnTarget()},1050)}
+</script></body></html>
